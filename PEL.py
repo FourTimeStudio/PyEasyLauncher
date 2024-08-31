@@ -10,19 +10,19 @@ class AppLauncher(tk.Tk):
         self.title("PyEasyLauncher")
         self.geometry("800x600")
         self.configure(bg="black")
-        self.resizable(False, False)  # Разрешить изменение размера
+        self.resizable(False, False) 
 
         self.apps = []
         self.quick_access_apps = []
-        self.current_section = 'all'  # Текущий раздел: 'all', 'quick_access', 'about'
-        self.language = StringVar(value="en")  # Зберігаємо мову як StringVar
+        self.current_section = 'all'  
+        self.language = StringVar(value="en")  
         self.load_apps()
         self.load_settings()
 
         self.create_widgets()
 
     def create_widgets(self):
-        # Создание строки поиска
+       
         search_frame = tk.Frame(self, bg="black")
         search_frame.pack(pady=10, padx=10, fill=tk.X)
 
@@ -33,19 +33,19 @@ class AppLauncher(tk.Tk):
         self.search_entry.pack(side=tk.LEFT, padx=(5, 0), fill=tk.X, expand=True)
         self.search_entry.bind("<KeyRelease>", self.search_apps)
 
-        # Добавление тонкой белой линии под строкой поиска
+        
         self.line_frame = tk.Frame(self, bg="white", height=1)
         self.line_frame.pack(fill=tk.X, padx=10)
 
-        # Основная рамка для разделов и приложений
+        
         self.main_frame = tk.Frame(self, bg="black")
         self.main_frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
 
-        # Рамка для разделов
+        
         self.sections_frame = tk.Frame(self.main_frame, bg="black")
         self.sections_frame.pack(fill=tk.X)
 
-        # Кнопки для переключения между разделами
+        
         self.all_apps_button = tk.Button(self.sections_frame, text=self.translate("Все программы"), command=self.show_all_apps, bg="#333", fg="white")
         self.all_apps_button.pack(side=tk.LEFT, padx=10)
         self.quick_access_button = tk.Button(self.sections_frame, text=self.translate("Быстрый доступ"), command=self.show_quick_access_apps, bg="#333", fg="white")
@@ -53,22 +53,22 @@ class AppLauncher(tk.Tk):
         self.about_button = tk.Button(self.sections_frame, text=self.translate("О программе"), command=self.show_about, bg="#333", fg="white")
         self.about_button.pack(side=tk.LEFT, padx=10)
 
-        # Кнопка для открытия настроек
+        
         self.settings_button = tk.Button(self.sections_frame, text=self.translate("Настройки"), command=self.open_settings_window, bg="#333", fg="white")
         self.settings_button.pack(side=tk.RIGHT, padx=10)
 
-        # Рамка для прокручиваемого контента
+        
         self.canvas = tk.Canvas(self.main_frame, bg="black")
         self.scrollbar = tk.Scrollbar(self.main_frame, orient="vertical", command=self.canvas.yview)
         self.scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
         self.canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
         self.canvas.configure(yscrollcommand=self.scrollbar.set)
 
-        # Рамка для размещения приложений
+        
         self.apps_frame = tk.Frame(self.canvas, bg="black")
         self.canvas.create_window((0, 0), window=self.apps_frame, anchor='nw')
 
-        # Кнопка для добавления программы
+        
         self.add_button = tk.Button(self, text="+", command=self.open_add_app_window, bg="#4CAF50", fg="white", font=("Arial", 14))
         self.add_button.pack(side=tk.RIGHT, padx=10, pady=10, anchor=tk.SE)
 
@@ -83,7 +83,7 @@ class AppLauncher(tk.Tk):
 
         Label(self.settings_window, text=self.translate("Выбор языка:"), bg="black", fg="white").pack(pady=10)
 
-        # Варианты выбора языка
+        
         languages = {"ru": "Русский", "en": "English", "uk": "Українська"}
         for code, lang in languages.items():
             tk.Radiobutton(self.settings_window, text=lang, variable=self.language, value=code, bg="black", fg="white",
@@ -94,7 +94,7 @@ class AppLauncher(tk.Tk):
         self.refresh_ui()
 
     def refresh_ui(self):
-        # Обновляем все элементы интерфейса с учетом новой локализации
+        
         self.search_label.config(text=self.translate("Поиск:"))
         self.all_apps_button.config(text=self.translate("Все программы"))
         self.quick_access_button.config(text=self.translate("Быстрый доступ"))
@@ -181,7 +181,7 @@ class AppLauncher(tk.Tk):
         self.add_app_window.title("Добавить приложение")
         self.add_app_window.geometry("400x300")
         self.add_app_window.configure(bg="black")
-        self.add_app_window.resizable(False, False)  # Запрет изменения размера
+        self.add_app_window.resizable(False, False)  
 
         Label(self.add_app_window, text="Путь к программе:", bg="black", fg="white").pack(pady=5)
         self.app_path_frame = tk.Frame(self.add_app_window, bg="black")
@@ -271,7 +271,7 @@ class AppLauncher(tk.Tk):
         def on_click(event):
             webbrowser.open_new("https://github.com/FourTimeStudio/PyEasyLauncher/tree/main")  # Replace with your URL
 
-        # Add a tag for clickable part of the text
+        
         label.bind("<Button-1>", on_click)
 
     def create_app_frame(self, app, parent_frame):
@@ -279,7 +279,7 @@ class AppLauncher(tk.Tk):
         frame.pack(pady=10, padx=10, fill=tk.X)
 
         if app.get("icon"):
-            # Если иконка есть, отображаем ее
+            
             icon_label = tk.Label(frame, bg="#333", fg="white", width=10)
             try:
                 icon_image = tk.PhotoImage(file=app["icon"])
@@ -290,11 +290,11 @@ class AppLauncher(tk.Tk):
                 icon_label.configure(text="Icon not found", bg="#666", fg="white")
             icon_label.pack(side=tk.LEFT, padx=20)
             
-            # Название программы размещается рядом с иконкой
+            
             name_label = tk.Button(frame, text=app["name"], bg="#333", fg="white", command=lambda: self.open_app_details(app))
             name_label.pack(side=tk.LEFT, padx=10)
         else:
-            # Если иконки нет, название программы размещается на ее месте
+            
             name_label = tk.Button(frame, text=app["name"], bg="#333", fg="white", command=lambda: self.open_app_details(app))
             name_label.pack(side=tk.LEFT, padx=30)
 
