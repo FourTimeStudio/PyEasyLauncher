@@ -1,7 +1,8 @@
 import tkinter as tk
-from tkinter import filedialog, Toplevel, Label, Entry, Button, Menu, messagebox
+from tkinter import filedialog, Toplevel, Label, Entry, Button, Menu, messagebox, StringVar
 import json
 import os
+import webbrowser
 
 class AppLauncher(tk.Tk):
     def __init__(self):
@@ -9,12 +10,14 @@ class AppLauncher(tk.Tk):
         self.title("FourTime Studio Launcher")
         self.geometry("800x600")
         self.configure(bg="black")
-        self.resizable(True, True)  # Разрешить изменение размера
+        self.resizable(False, False)  # Разрешить изменение размера
 
         self.apps = []
         self.quick_access_apps = []
         self.current_section = 'all'  # Текущий раздел: 'all', 'quick_access', 'about'
+        self.language = StringVar(value="en")  # Зберігаємо мову як StringVar
         self.load_apps()
+        self.load_settings()
 
         self.create_widgets()
 
@@ -23,7 +26,7 @@ class AppLauncher(tk.Tk):
         search_frame = tk.Frame(self, bg="black")
         search_frame.pack(pady=10, padx=10, fill=tk.X)
 
-        self.search_label = tk.Label(search_frame, text="Поиск:", bg="black", fg="white")
+        self.search_label = tk.Label(search_frame, text=self.translate("Поиск:"), bg="black", fg="white")
         self.search_label.pack(side=tk.LEFT)
 
         self.search_entry = tk.Entry(search_frame, width=50)
@@ -43,12 +46,16 @@ class AppLauncher(tk.Tk):
         self.sections_frame.pack(fill=tk.X)
 
         # Кнопки для переключения между разделами
-        self.all_apps_button = tk.Button(self.sections_frame, text="Все программы", command=self.show_all_apps, bg="#333", fg="white")
+        self.all_apps_button = tk.Button(self.sections_frame, text=self.translate("Все программы"), command=self.show_all_apps, bg="#333", fg="white")
         self.all_apps_button.pack(side=tk.LEFT, padx=10)
-        self.quick_access_button = tk.Button(self.sections_frame, text="Быстрый доступ", command=self.show_quick_access_apps, bg="#333", fg="white")
+        self.quick_access_button = tk.Button(self.sections_frame, text=self.translate("Быстрый доступ"), command=self.show_quick_access_apps, bg="#333", fg="white")
         self.quick_access_button.pack(side=tk.LEFT, padx=10)
-        self.about_button = tk.Button(self.sections_frame, text="О программе", command=self.show_about, bg="#333", fg="white")
+        self.about_button = tk.Button(self.sections_frame, text=self.translate("О программе"), command=self.show_about, bg="#333", fg="white")
         self.about_button.pack(side=tk.LEFT, padx=10)
+
+        # Кнопка для открытия настроек
+        self.settings_button = tk.Button(self.sections_frame, text=self.translate("Настройки"), command=self.open_settings_window, bg="#333", fg="white")
+        self.settings_button.pack(side=tk.RIGHT, padx=10)
 
         # Рамка для прокручиваемого контента
         self.canvas = tk.Canvas(self.main_frame, bg="black")
@@ -66,6 +73,108 @@ class AppLauncher(tk.Tk):
         self.add_button.pack(side=tk.RIGHT, padx=10, pady=10, anchor=tk.SE)
 
         self.show_all_apps()
+
+    def open_settings_window(self):
+        self.settings_window = Toplevel(self)
+        self.settings_window.title(self.translate("Настройки"))
+        self.settings_window.geometry("400x200")
+        self.settings_window.configure(bg="black")
+        self.settings_window.resizable(False, False)
+
+        Label(self.settings_window, text=self.translate("Выбор языка:"), bg="black", fg="white").pack(pady=10)
+
+        # Варианты выбора языка
+        languages = {"ru": "Русский", "en": "English", "uk": "Українська"}
+        for code, lang in languages.items():
+            tk.Radiobutton(self.settings_window, text=lang, variable=self.language, value=code, bg="black", fg="white",
+                           command=self.change_language).pack(anchor=tk.W, padx=20, pady=5)
+
+    def change_language(self):
+        self.save_settings()
+        self.refresh_ui()
+
+    def refresh_ui(self):
+        # Обновляем все элементы интерфейса с учетом новой локализации
+        self.search_label.config(text=self.translate("Поиск:"))
+        self.all_apps_button.config(text=self.translate("Все программы"))
+        self.quick_access_button.config(text=self.translate("Быстрый доступ"))
+        self.about_button.config(text=self.translate("О программе"))
+        self.settings_button.config(text=self.translate("Настройки"))
+        if self.current_section == 'all':
+            self.show_all_apps()
+        elif self.current_section == 'quick_access':
+            self.show_quick_access_apps()
+        elif self.current_section == 'about':
+            self.show_about()
+
+    def translate(self, text):
+        translations = {
+            "ru": {
+                "Поиск:": "Поиск:",
+                "Все программы": "Все программы",
+                "Быстрый доступ": "Быстрый доступ",
+                "О программе": "О программе",
+                "Настройки": "Настройки",
+                "Выбор языка:": "Выбор языка:",
+                "about_text": """
+                FourTime Studio Launcher v1.0
+
+                Программа разработана для удобного запуска ваших приложений.
+                Вы можете добавлять, редактировать, удалять программы, а также
+                просматривать местоположение файлов.
+
+                Открытый код: https://github.com/FourTimeStudio/PyEasyLauncher/tree/main
+                """
+            },
+            "en": {
+                "Поиск:": "Search:",
+                "Все программы": "All Applications",
+                "Быстрый доступ": "Quick Access",
+                "О программе": "About",
+                "Настройки": "Settings",
+                "Выбор языка:": "Select Language:",
+                "about_text": """
+                FourTime Studio Launcher v1.0
+
+                The program is designed for easy launching of your applications.
+                You can add, edit, delete programs, and also
+                view the location of files.
+
+                Open source: https://github.com/FourTimeStudio/PyEasyLauncher/tree/main
+                """
+            },
+            "uk": {
+                "Поиск:": "Пошук:",
+                "Все программы": "Усі програми",
+                "Быстрый доступ": "Швидкий доступ",
+                "О программе": "Про програму",
+                "Настройки": "Налаштування",
+                "Выбор языка:": "Вибір мови:",
+                "about_text": """
+                FourTime Studio Launcher v1.0
+
+                Програма розроблена для зручного запуску ваших додатків.
+                Ви можете додавати, редагувати, видаляти програми, а також
+                переглядати місцезнаходження файлів.
+
+                Відкритий код: https://github.com/FourTimeStudio/PyEasyLauncher/tree/main
+                """
+            }
+        }
+        return translations.get(self.language.get(), translations["ru"]).get(text, text)
+
+    def save_settings(self):
+        settings = {"language": self.language.get()}
+        with open("settings.json", "w") as file:
+            json.dump(settings, file, indent=4)
+
+    def load_settings(self):
+        if os.path.exists("settings.json"):
+            with open("settings.json", "r") as file:
+                settings = json.load(file)
+                self.language.set(settings.get("language", "ru"))
+        else:
+            self.language.set("en")
 
     def open_add_app_window(self):
         self.add_app_window = Toplevel(self)
@@ -144,16 +253,26 @@ class AppLauncher(tk.Tk):
 
         about_text = """
         FourTime Studio Launcher v1.0
-        
-        Программа разработана для удобного запуска ваших приложений.
-        Вы можете добавлять, редактировать, удалять программы, а также
-        управлять быстрым доступом и просматривать местоположение файлов.
+
+        The program is designed for easy launching of your applications.
+        You can add, edit, delete programs, and also
+        view the location of files.
+
+        Open source (Click the link or text): https://github.com/FourTimeStudio/PyEasyLauncher/tree/main
         """
 
         about_label = tk.Label(self.apps_frame, text=about_text, bg="black", fg="white", justify=tk.LEFT)
         about_label.pack(pady=20, padx=20, anchor="nw")
 
         self.update_scroll_region()
+        self.make_url_clickable(about_label)
+
+    def make_url_clickable(self, label):
+        def on_click(event):
+            webbrowser.open_new("https://github.com/FourTimeStudio/PyEasyLauncher/tree/main")  # Replace with your URL
+
+        # Add a tag for clickable part of the text
+        label.bind("<Button-1>", on_click)
 
     def create_app_frame(self, app, parent_frame):
         frame = tk.Frame(parent_frame, bg="#333", bd=2, relief=tk.RAISED)
