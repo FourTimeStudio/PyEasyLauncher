@@ -1,57 +1,54 @@
 #PyEasyLauncher (PEL)
 
-Версия: 1.0.0
-Автор: FourTimeStudio
-Дата выпуска: 30.08.2024
+Version: 1.2.1
+Author: FourTimeStudio
+Release Date: August 30, 2024
 
-#Описание
+#Description
 
-PyEasyLauncher (PEL) — это простой и удобный лаунчер для приложений на Windows, разработанный с использованием Python и библиотеки tkinter. С его помощью можно легко управлять вашими программами, добавлять их в список для быстрого доступа, а также запускать их прямо из лаунчера.
+PyEasyLauncher (PEL) is a simple and user-friendly application launcher for Windows, developed using Python and the tkinter library. It allows you to easily manage your programs, add them to a quick access list, and launch them directly from the launcher.
 
-#Установка
+#Installation
 
-из Microsoft Store или з офицального сайта устоновите Python 3.x "х - это любая цифра"
-и установить tkinter 
-Есть 2 способа как устоновить эту библеотеку
+Install Python 3.x (where "x" is any digit) from the Microsoft Store or the official website, and ensure tkinter is installed. There are two methods to install this library:
 
-1 Способ (windows):
-откройте cmd и написать:
+Method 1 (Windows):
+Open the command prompt (cmd) and run:
 ```
 pip install tk
 ```
 
-2 способ (продвинутый):
-если у вас есть Visual Studio Code то...
-откройте терминал Power shell (в Visual Studio Code) и напишите:
+Method 2 (Advanced): 
+If you have Visual Studio Code, open the PowerShell terminal (within Visual Studio Code) and run:
 ```
 pip install tk
 ```
 
-3 способ:
-откройте Windows Power Shell и напишите:
+Method 3:
+Open Windows PowerShell and run:
 ```
 pip install tk
 ```
 
 
-#Основные функции
+#Main Features
 
-Добавление приложений: Позволяет добавлять новые программы в лаунчер с возможностью указания пути к иконке.
-Быстрый доступ: Добавляйте приложения в раздел "Быстрый доступ" для мгновенного запуска.
-Поиск приложений: Встроенный поиск помогает быстро находить нужные программы.
-Удаление приложений: Удаляйте ненужные программы из списка с сохранением их в файловой системе.
-Редактирование: Возможность редактировать информацию о приложениях прямо из лаунчера.
+Adding Applications: Allows you to add new programs to the launcher with the option to specify an icon path.
+Quick Access: Add applications to the "Quick Access" section for immediate launching.
+Application Search: Built-in search helps you quickly find the programs you need.
+Deleting Applications: Remove unwanted programs from the list while keeping them in the file system.
+Editing: Ability to edit application information directly from the launcher.
 
-#Требования
+#Requirements
 
 Python 3.x
 tkinter
 
-#Поддержка
+#Support
 
-Если у вас возникли вопросы или проблемы, пожалуйста, свяжитесь с мной по адресу 1.Bendippok.1@gmail.com.
+If you have any questions or issues, please contact me at: 1.Bendippok.1@gmail.com.
 
-#Лицензия
+#License
 
-Этот проект лицензирован на условиях GNU General Public License v3.0 — подробнее см. файл LICENSE.
+This project is licensed under the GNU General Public License v3.0 — see the LICENSE file for details.
 
