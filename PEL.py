@@ -7,7 +7,7 @@ import webbrowser
 class AppLauncher(tk.Tk):
     def __init__(self):
         super().__init__()
-        self.title("FourTime Studio Launcher")
+        self.title("PyEasyLauncher")
         self.geometry("800x600")
         self.configure(bg="black")
         self.resizable(False, False)  # Разрешить изменение размера
@@ -252,7 +252,7 @@ class AppLauncher(tk.Tk):
         self.clear_content(self.apps_frame)
 
         about_text = """
-        FourTime Studio Launcher v1.0
+        PyEasyLauncher v1.2
 
         The program is designed for easy launching of your applications.
         You can add, edit, delete programs, and also
