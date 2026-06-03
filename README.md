@@ -10,26 +10,11 @@ PyEasyLauncher (PEL) is a simple and user-friendly application launcher for Wind
 
 #Installation
 
-Install Python 3.x (where "x" is any digit) from the Microsoft Store or the official website, and ensure tkinter is installed. There are two methods to install this library:
+Install Python 3.x (where "x" is any digit) from the Microsoft Store or the official website, and ensure tkinter is installed. install this library:
 
-Method 1 (Windows):
-Open the command prompt (cmd) and run:
 ```
 pip install tk
 ```
-
-Method 2 (Advanced): 
-If you have Visual Studio Code, open the PowerShell terminal (within Visual Studio Code) and run:
-```
-pip install tk
-```
-
-Method 3:
-Open Windows PowerShell and run:
-```
-pip install tk
-```
-
 
 #Main Features
 
